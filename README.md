@@ -1,1 +1,1 @@
-# Probabilistic Counting with Stochastic Averaging (PCSA)
+# PCSA - Probabilistic Counting with Stochastic Averaging
