@@ -17,7 +17,7 @@ const (
 type Sketch struct {
 	b       uint8
 	m       uint64
-	bitmaps []uint32
+	bitmaps []uint64
 }
 
 // New ...
@@ -29,7 +29,7 @@ func New(b uint8) (*Sketch, error) {
 	return &Sketch{
 		b:       b,
 		m:       m,
-		bitmaps: make([]uint32, m),
+		bitmaps: make([]uint64, m),
 	}, nil
 }
 
@@ -46,10 +46,9 @@ func (sk *Sketch) Add(val []byte) {
 
 // AddHashed ...
 func (sk *Sketch) AddHashed(x uint64) {
-	mutX := uint32(x)
-	idx := mutX >> uint32(32-sk.b)
-	lz := bits.TrailingZeros32(mutX)
-	sk.bitmaps[idx] |= uint32(1) << uint32(lz)
+	idx := x >> (64 - sk.b)
+	lz := bits.TrailingZeros64(x)
+	sk.bitmaps[idx] |= 1 << uint64(lz)
 }
 
 // Cardinality ...
@@ -57,7 +56,7 @@ func (sk *Sketch) Cardinality() uint64 {
 	sum := float64(0)
 
 	for _, val := range sk.bitmaps {
-		sum += float64(bits.TrailingZeros32(^val))
+		sum += float64(bits.TrailingZeros64(^val))
 	}
 
 	m := float64(sk.m)

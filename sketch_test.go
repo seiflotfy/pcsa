@@ -36,7 +36,6 @@ func TestCardinalityLinear(t *testing.T) {
 	sk := NewDefault()
 	step := 100000
 	unique := map[string]bool{}
-
 	for i := 1; len(unique) <= 10000000; i++ {
 		str := RandStringBytesMaskImprSrc(rand.Uint32() % 32)
 		sk.Add([]byte(str))
