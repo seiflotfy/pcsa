@@ -41,11 +41,11 @@ func NewDefault() *Sketch {
 
 // Add ...
 func (sk *Sketch) Add(val []byte) {
-	sk.AddHashed(metro.Hash64(val, 1337))
+	sk.AddHash(metro.Hash64(val, 1337))
 }
 
-// AddHashed ...
-func (sk *Sketch) AddHashed(x uint64) {
+// AddHash ...
+func (sk *Sketch) AddHash(x uint64) {
 	idx := x >> (64 - sk.b)
 	lz := bits.TrailingZeros64(x)
 	sk.bitmaps[idx] |= 1 << uint64(lz)

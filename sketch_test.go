@@ -32,11 +32,29 @@ func TestCardinalityZero(t *testing.T) {
 	}
 }
 
+func TestCardinality10(t *testing.T) {
+	sk := NewDefault()
+	for i := uint64(0); i < 10; i++ {
+		sk.AddHash(i)
+	}
+	if card := sk.Cardinality(); card != 10 {
+		t.Error("exepcted cardinality == 10, got", card)
+	}
+}
+
+func TestCardinalityOne(t *testing.T) {
+	sk := NewDefault()
+	sk.AddHash(1)
+	if card := sk.Cardinality(); card != 0 {
+		t.Error("exepcted cardinality == 0, got", card)
+	}
+}
+
 func TestCardinalityLinear(t *testing.T) {
 	sk := NewDefault()
 	step := 100000
 	unique := map[string]bool{}
-	for i := 1; len(unique) <= 10000000; i++ {
+	for i := 1; len(unique) <= 1000000; i++ {
 		str := RandStringBytesMaskImprSrc(rand.Uint32() % 32)
 		sk.Add([]byte(str))
 		unique[str] = true
