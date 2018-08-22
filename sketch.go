@@ -1,7 +1,6 @@
 package pcsa
 
 import (
-	"fmt"
 	"math"
 	"math/bits"
 
@@ -22,9 +21,6 @@ type Sketch struct {
 
 // New ...
 func New(b uint8) (*Sketch, error) {
-	if b < 4 || b > 16 {
-		return nil, fmt.Errorf("expected 4 <= b <= 16, got %v", b)
-	}
 	m := uint64(1) << b
 	return &Sketch{
 		b:       b,
@@ -60,6 +56,6 @@ func (sk *Sketch) Cardinality() uint64 {
 	}
 
 	m := float64(sk.m)
-	res := m / phi * (math.Pow(2, float64(sum)/m) - math.Pow(2, -kappa*sum/m))
+	res := m/phi*(math.Pow(2, float64(sum)/m)) - math.Pow(2, -kappa*sum/m)
 	return uint64(res + 0.5)
 }
