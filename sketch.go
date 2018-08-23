@@ -54,8 +54,8 @@ func (sk *Sketch) sum() uint64 {
 		sum += uint64(sk.bitmaps.LZ(i))
 	}
 
-	// We are always over estimating, so I am trying to subtract something based on our current base
-	return sum - 2*uint64(1<<sk.bitmaps.base)/uint64(sk.bitmaps.base+1)
+	// TODO: We are always over estimating, so I am trying to subtract something based on our current base
+	return sum
 
 }
 
@@ -64,9 +64,7 @@ func (sk *Sketch) Cardinality() uint64 {
 	sum := float64(sk.sum())
 	m := float64(sk.m)
 
-	// Trying another correction here
-	correction := sum / float64(uint64(1)<<sk.bitmaps.base+1)
-
-	res := m/phi*(math.Pow(2, float64(sum)/m)) + correction - math.Pow(2, -kappa*sum/m)
+	// TODO: Trying another correction here
+	res := m/phi*(math.Pow(2, float64(sum)/m)) - math.Pow(2, -kappa*sum/m)
 	return uint64(res + 0.5)
 }

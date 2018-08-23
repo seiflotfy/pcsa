@@ -1,12 +1,23 @@
 package pcsa
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 	"testing"
 	"time"
 )
+
+func estimateError(got, exp uint64) float64 {
+	var delta uint64
+	sign := 1.0
+	if got > exp {
+		delta = got - exp
+	} else {
+		delta = exp - got
+		sign = -1
+	}
+	return sign * float64(delta) / float64(exp)
+}
 
 func TestCardinalityZero(t *testing.T) {
 	sk, _ := New(4)
@@ -46,7 +57,6 @@ func TestCardinalityLinear(t *testing.T) {
 		unique[hash] = true
 
 		if len(unique)%step == 0 {
-			fmt.Println("---")
 			exact := uint64(len(unique))
 			res1 := uint64(sk.Cardinality())
 
