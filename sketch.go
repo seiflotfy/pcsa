@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	phi   = 0.77351
-	kappa = 1.75
+	phi   = 0.77350
+	kappa = 1.4
 )
 
 // Sketch ...
@@ -55,6 +55,7 @@ func (sk *Sketch) sum() uint64 {
 	}
 
 	// TODO: We are always over estimating, so I am trying to subtract something based on our current base
+	//sum -= 1 << sk.bitmaps.base
 	return sum
 
 }
