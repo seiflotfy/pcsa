@@ -1,7 +1,6 @@
 package pcsa
 
 import (
-	"fmt"
 	"math"
 	"math/bits"
 
@@ -17,7 +16,7 @@ const (
 type Sketch struct {
 	b       uint8
 	m       uint64
-	bitmaps []uint64
+	bitmaps *TailCutBitmap
 }
 
 // New ...
@@ -26,7 +25,7 @@ func New(b uint8) (*Sketch, error) {
 	return &Sketch{
 		b:       b,
 		m:       m,
-		bitmaps: make([]uint64, m),
+		bitmaps: NewTailCutBitmap(m),
 	}, nil
 }
 
@@ -45,24 +44,29 @@ func (sk *Sketch) Add(val []byte) {
 func (sk *Sketch) AddHash(x uint64) {
 	idx := x >> (64 - sk.b)
 	lz := bits.TrailingZeros64(x)
-	sk.bitmaps[idx] |= 1 << uint64(lz)
+	sk.bitmaps.Flip(idx, uint8(lz))
 }
 
 func (sk *Sketch) sum() uint64 {
 	sum := uint64(0)
 
-	for _, val := range sk.bitmaps {
-		sum += uint64(bits.TrailingZeros64(^val))
+	for i := uint64(0); i < sk.m; i++ {
+		sum += uint64(sk.bitmaps.LZ(i))
 	}
 
-	return sum
+	// We are always over estimating, so I am trying to subtract something based on our current base
+	return sum - 2*uint64(1<<sk.bitmaps.base)/uint64(sk.bitmaps.base+1)
+
 }
 
 // Cardinality ...
 func (sk *Sketch) Cardinality() uint64 {
 	sum := float64(sk.sum())
-	fmt.Println("sk", sum)
 	m := float64(sk.m)
-	res := m/phi*(math.Pow(2, float64(sum)/m)) - math.Pow(2, -kappa*sum/m)
+
+	// Trying another correction here
+	correction := sum / float64(uint64(1)<<sk.bitmaps.base+1)
+
+	res := m/phi*(math.Pow(2, float64(sum)/m)) + correction - math.Pow(2, -kappa*sum/m)
 	return uint64(res + 0.5)
 }

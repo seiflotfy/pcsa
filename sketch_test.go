@@ -5,31 +5,8 @@ import (
 	"math"
 	"math/rand"
 	"testing"
-
-	"github.com/seiflotfy/loglogbeta"
+	"time"
 )
-
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func estimateError(got, exp uint64) float64 {
-	var delta uint64
-	sign := 1.0
-	if got > exp {
-		delta = got - exp
-	} else {
-		delta = exp - got
-		sign = -1
-	}
-	return sign * float64(delta) / float64(exp)
-}
-
-func RandStringBytesMaskImprSrc(n uint32) string {
-	b := make([]byte, n)
-	for i := uint32(0); i < n; i++ {
-		b[i] = letterBytes[rand.Int()%len(letterBytes)]
-	}
-	return string(b)
-}
 
 func TestCardinalityZero(t *testing.T) {
 	sk, _ := New(4)
@@ -60,16 +37,12 @@ func TestCardinalityOne(t *testing.T) {
 
 func TestCardinalityLinear(t *testing.T) {
 	sk := NewDefault()
-	tc := NewTCDefault()
-	llb := loglogbeta.New()
-	rand.Seed(0)
+	rand.Seed(time.Now().Unix())
 	step := 1000000
 	unique := map[uint64]bool{}
 	for i := 1; len(unique) < 100000000; i++ {
 		hash := rand.Uint64()
 		sk.AddHash(hash)
-		tc.AddHash(hash)
-		llb.AddHash(hash)
 		unique[hash] = true
 
 		if len(unique)%step == 0 {
@@ -77,24 +50,10 @@ func TestCardinalityLinear(t *testing.T) {
 			exact := uint64(len(unique))
 			res1 := uint64(sk.Cardinality())
 
-			ratio := 100 * estimateError(res1, exact)
-			if math.Abs(ratio) > 2 {
-				t.Errorf("Normal: Exact %d, got %d which is %.2f%% error", exact, res1, ratio)
+			ratio1 := 100 * estimateError(res1, exact)
+			if math.Abs(ratio1) > 2 {
+				t.Errorf("Normal: Exact %d, got %d which is %.2f%% error", exact, res1, ratio1)
 			}
-
-			res2 := uint64(tc.Cardinality())
-			ratio2 := 100 * estimateError(res2, exact)
-			if math.Abs(ratio2) > 2 {
-				t.Errorf("TailCut: Exact %d, got %d which is %.2f%% error", exact, res2, ratio2)
-			}
-
-			res3 := uint64(llb.Cardinality())
-			ratio3 := 100 * estimateError(res3, exact)
-			if math.Abs(ratio3) > 2 {
-				t.Errorf("HyperLogLog: Exact %d, got %d which is %.2f%% error", exact, res3, ratio3)
-			}
-
-			fmt.Printf(">>> %d %2f %2f %2f %d\n", exact, ratio, ratio2, ratio3, tc.bitmaps.base)
 		}
 	}
 }
