@@ -12,25 +12,37 @@ go run demo/main.go
 ## Example Results
 Again this needs more testing and plotting and what not...
 ```
-Exact Cardinality: 100000000    PCSA-TailCut (%err): 0.8013     LogLogBeta (%err): -0.6308
-Exact Cardinality: 200000000    PCSA-TailCut (%err): 1.5675     LogLogBeta (%err): 0.5411
-Exact Cardinality: 300000000    PCSA-TailCut (%err): 0.6733     LogLogBeta (%err): 0.2857
-Exact Cardinality: 400000000    PCSA-TailCut (%err): 0.4522     LogLogBeta (%err): 0.3363
-Exact Cardinality: 500000000    PCSA-TailCut (%err): 0.0727     LogLogBeta (%err): 0.4330
-Exact Cardinality: 600000000    PCSA-TailCut (%err): 0.6009     LogLogBeta (%err): 0.2855
-Exact Cardinality: 700000000    PCSA-TailCut (%err): 0.1649     LogLogBeta (%err): 0.7454
-Exact Cardinality: 800000000    PCSA-TailCut (%err): 0.3970     LogLogBeta (%err): 0.7733
-Exact Cardinality: 900000000    PCSA-TailCut (%err): 0.8352     LogLogBeta (%err): 0.9800
+Exact Cardinality: 10000000     PCSA-TailCut (ratio): 0.9923    LogLogBeta (ratio): 0.9964
+Exact Cardinality: 20000000     PCSA-TailCut (ratio): 0.9992    LogLogBeta (ratio): 0.9982
+Exact Cardinality: 30000000     PCSA-TailCut (ratio): 0.9946    LogLogBeta (ratio): 1.0039
+Exact Cardinality: 40000000     PCSA-TailCut (ratio): 1.0018    LogLogBeta (ratio): 0.9983
+Exact Cardinality: 50000000     PCSA-TailCut (ratio): 1.0080    LogLogBeta (ratio): 1.0024
+Exact Cardinality: 60000000     PCSA-TailCut (ratio): 1.0064    LogLogBeta (ratio): 0.9999
+Exact Cardinality: 70000000     PCSA-TailCut (ratio): 1.0063    LogLogBeta (ratio): 0.9978
+Exact Cardinality: 80000000     PCSA-TailCut (ratio): 1.0118    LogLogBeta (ratio): 1.0015
+Exact Cardinality: 90000000     PCSA-TailCut (ratio): 1.0092    LogLogBeta (ratio): 1.0021
 ```
 
 ```
-Exact Cardinality: 100000000    PCSA-TailCut (%err): 0.2060     LogLogBeta (%err): 0.7875
-Exact Cardinality: 200000000    PCSA-TailCut (%err): 0.2230     LogLogBeta (%err): -0.1703
-Exact Cardinality: 300000000    PCSA-TailCut (%err): -0.5290    LogLogBeta (%err): -0.9651
-Exact Cardinality: 400000000    PCSA-TailCut (%err): -0.3014    LogLogBeta (%err): -0.9124
-Exact Cardinality: 500000000    PCSA-TailCut (%err): -0.4046    LogLogBeta (%err): -1.5113
-Exact Cardinality: 600000000    PCSA-TailCut (%err): 0.0957     LogLogBeta (%err): -1.6920
-Exact Cardinality: 700000000    PCSA-TailCut (%err): -0.0975    LogLogBeta (%err): -2.1187
-Exact Cardinality: 800000000    PCSA-TailCut (%err): 0.1340     LogLogBeta (%err): -1.6607
-Exact Cardinality: 900000000    PCSA-TailCut (%err): 0.0237     LogLogBeta (%err): -1.6979
+Exact Cardinality: 10000000     PCSA-TailCut (ratio): 0.9875    LogLogBeta (ratio): 0.9942
+Exact Cardinality: 20000000     PCSA-TailCut (ratio): 0.9951    LogLogBeta (ratio): 1.0073
+Exact Cardinality: 30000000     PCSA-TailCut (ratio): 0.9965    LogLogBeta (ratio): 1.0128
+Exact Cardinality: 40000000     PCSA-TailCut (ratio): 0.9937    LogLogBeta (ratio): 1.0140
+Exact Cardinality: 50000000     PCSA-TailCut (ratio): 0.9982    LogLogBeta (ratio): 1.0046
+Exact Cardinality: 60000000     PCSA-TailCut (ratio): 0.9990    LogLogBeta (ratio): 1.0107
+Exact Cardinality: 70000000     PCSA-TailCut (ratio): 0.9974    LogLogBeta (ratio): 1.0084
+Exact Cardinality: 80000000     PCSA-TailCut (ratio): 0.9975    LogLogBeta (ratio): 1.0033
+Exact Cardinality: 90000000     PCSA-TailCut (ratio): 0.9991    LogLogBeta (ratio): 1.0041
+```
+
+```
+Exact Cardinality: 10000000     PCSA-TailCut (ratio): 1.0024    LogLogBeta (ratio): 1.0083
+Exact Cardinality: 20000000     PCSA-TailCut (ratio): 1.0102    LogLogBeta (ratio): 0.9918
+Exact Cardinality: 30000000     PCSA-TailCut (ratio): 1.0117    LogLogBeta (ratio): 0.9898
+Exact Cardinality: 40000000     PCSA-TailCut (ratio): 1.0093    LogLogBeta (ratio): 0.9925
+Exact Cardinality: 50000000     PCSA-TailCut (ratio): 1.0050    LogLogBeta (ratio): 0.9925
+Exact Cardinality: 60000000     PCSA-TailCut (ratio): 1.0023    LogLogBeta (ratio): 1.0012
+Exact Cardinality: 70000000     PCSA-TailCut (ratio): 1.0035    LogLogBeta (ratio): 0.9968
+Exact Cardinality: 80000000     PCSA-TailCut (ratio): 1.0043    LogLogBeta (ratio): 1.0021
+Exact Cardinality: 90000000     PCSA-TailCut (ratio): 1.0017    LogLogBeta (ratio): 1.0057
 ```

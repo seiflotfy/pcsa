@@ -9,38 +9,26 @@ import (
 	"github.com/seiflotfy/pcsa"
 )
 
-func estimateError(got, exp uint64) float64 {
-	var delta uint64
-	sign := 1.0
-	if got > exp {
-		delta = got - exp
-	} else {
-		delta = exp - got
-		sign = -1
-	}
-	return sign * float64(delta) / float64(exp)
-}
-
 func main() {
 	sk := pcsa.NewDefault()
 	llb := loglogbeta.New()
 	rand.Seed(time.Now().Unix())
-	step := 100000000
-	for i := 1; i < 1000000000; i++ {
+	step := 10000000
+	for i := 1; i < 100000000; i++ {
 		hash := rand.Uint64()
 		sk.AddHash(hash)
 		llb.AddHash(hash)
 
 		if i%step == 0 {
-			exact := uint64(i)
+			exact := float64(i)
 
-			res1 := uint64(sk.Cardinality())
-			ratio1 := 100 * estimateError(res1, exact)
+			res1 := float64(sk.Cardinality())
+			ratio1 := exact / res1
 
-			res2 := uint64(llb.Cardinality())
-			ratio2 := 100 * estimateError(res2, exact)
+			res2 := float64(llb.Cardinality())
+			ratio2 := exact / res2
 
-			fmt.Printf("Exact Cardinality: %d\tPCSA-TailCut (%%err): %.4f\tLogLogBeta (%%err): %.4f\n", exact, ratio1, ratio2)
+			fmt.Printf("Exact Cardinality: %0.f\tPCSA-TailCut (ratio): %.4f\tLogLogBeta (ratio): %.4f\n", exact, ratio1, ratio2)
 		}
 	}
 }
