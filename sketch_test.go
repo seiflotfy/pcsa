@@ -5,7 +5,6 @@ import (
 	"math"
 	"math/rand"
 	"testing"
-	"time"
 
 	"github.com/seiflotfy/loglogbeta"
 )
@@ -63,7 +62,7 @@ func TestCardinalityLinear(t *testing.T) {
 	sk := NewDefault()
 	tc := NewTCDefault()
 	llb := loglogbeta.New()
-	rand.Seed(time.Now().Unix())
+	rand.Seed(0)
 	step := 1000000
 	unique := map[uint64]bool{}
 	for i := 1; len(unique) < 100000000; i++ {
