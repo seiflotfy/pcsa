@@ -5,8 +5,8 @@ import (
 	"math"
 	"math/rand"
 	"testing"
+	"time"
 
-	"github.com/dgryski/go-metro"
 	"github.com/seiflotfy/loglogbeta"
 )
 
@@ -61,17 +61,17 @@ func TestCardinalityOne(t *testing.T) {
 
 func TestCardinalityLinear(t *testing.T) {
 	sk := NewDefault()
-	tc, _ := NewTC(16)
+	tc := NewTCDefault()
 	llb := loglogbeta.New()
+	rand.Seed(time.Now().Unix())
 	step := 1000000
-	unique := map[string]bool{}
-	for i := 1; len(unique) <= 10000000; i++ {
-		str := RandStringBytesMaskImprSrc(rand.Uint32() % 32)
-		hash := metro.Hash64Str(str, 1337)
+	unique := map[uint64]bool{}
+	for i := 1; len(unique) < 100000000; i++ {
+		hash := rand.Uint64()
 		sk.AddHash(hash)
 		tc.AddHash(hash)
 		llb.AddHash(hash)
-		unique[str] = true
+		unique[hash] = true
 
 		if len(unique)%step == 0 {
 			fmt.Println("---")
@@ -96,7 +96,6 @@ func TestCardinalityLinear(t *testing.T) {
 			}
 
 			fmt.Printf(">>> %d %2f %2f %2f %d\n", exact, ratio, ratio2, ratio3, tc.bitmaps.base)
-
 		}
 	}
 }

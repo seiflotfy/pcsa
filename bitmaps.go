@@ -42,7 +42,6 @@ func (tcb *TailCutBitmap) Flip(i uint64, lz uint8) {
 	if lz < tcb.base {
 		return
 	}
-
 	if lz-tcb.base >= maxLZ {
 		tcb.rebase()
 	}

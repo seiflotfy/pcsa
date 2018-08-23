@@ -1,6 +1,7 @@
 package pcsa
 
 import (
+	"fmt"
 	"math"
 	"math/bits"
 
@@ -47,14 +48,20 @@ func (sk *Sketch) AddHash(x uint64) {
 	sk.bitmaps[idx] |= 1 << uint64(lz)
 }
 
-// Cardinality ...
-func (sk *Sketch) Cardinality() uint64 {
-	sum := float64(0)
+func (sk *Sketch) sum() uint64 {
+	sum := uint64(0)
 
 	for _, val := range sk.bitmaps {
-		sum += float64(bits.TrailingZeros64(^val))
+		sum += uint64(bits.TrailingZeros64(^val))
 	}
 
+	return sum
+}
+
+// Cardinality ...
+func (sk *Sketch) Cardinality() uint64 {
+	sum := float64(sk.sum())
+	fmt.Println("sk", sum)
 	m := float64(sk.m)
 	res := m/phi*(math.Pow(2, float64(sum)/m)) - math.Pow(2, -kappa*sum/m)
 	return uint64(res + 0.5)
