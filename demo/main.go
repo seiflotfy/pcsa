@@ -5,8 +5,8 @@ import (
 	"math/rand"
 	"time"
 
-	pcsa "github.com/seiflotfy/fm85"
 	"github.com/seiflotfy/loglogbeta"
+	"github.com/seiflotfy/pcsa"
 )
 
 func estimateError(got, exp uint64) float64 {
