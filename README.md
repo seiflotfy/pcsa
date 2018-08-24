@@ -1,8 +1,9 @@
 # PCSA-TC - Probabilistic Counting with Stochastic Averaging with Tail Cutting
 
 Inspired by ["Better with fewer bits: Improving the performance of cardinality estimation of large data streams - Qingjun Xiao, You Zhou, Shigang Chen"](http://cse.seu.edu.cn/PersonalPage/csqjxiao/csqjxiao_files/papers/INFOCOM17.pdf), I thought of applying the same idea to good old PCSA. Instead of using 32-bit or 64-bit registers I reduced it to 8-bit per register and an 8bit offset counter.
-* The initial results are competitive and comparable to HyperLogLog. Throught this research I will be comparing it with LogLog-Beta.
-* Another observation is that the sum of `Tralining Ones` is always overestimated compared to classic PCSA
+* The initial results are competitive and comparable to HyperLogLog. Throughout this research I will be comparing it with LogLog-Beta.
+* Another observation is that the sum of `Tralining Ones` is always overestimated compared to classic PCSA. This is something that can be used.
+* One can also start with a full fledged 32bit register version... instead of [k]int32 we can do [32]Bitstream where bitstream is k. Once we know all registers have at least trailing 1 we downsize the bitstream by 1 bit and increment the base... over time the PCSA will be shrinking.
 
 ## Run it
 ```bash
