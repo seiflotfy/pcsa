@@ -2,14 +2,14 @@ package pcsa
 
 import (
 	"math"
-	"math/bits"
 
 	"github.com/dgryski/go-metro"
 )
 
 const (
-	phi   = 0.77350
-	kappa = 1.4
+	phi   = 0.77351
+	kappa = 1.75
+	div   = 2
 )
 
 // Sketch ...
@@ -31,7 +31,7 @@ func New(b uint8) (*Sketch, error) {
 
 // NewDefault ...
 func NewDefault() *Sketch {
-	sk, _ := New(14)
+	sk, _ := New(12)
 	return sk
 }
 
@@ -43,19 +43,16 @@ func (sk *Sketch) Add(val []byte) {
 // AddHash ...
 func (sk *Sketch) AddHash(x uint64) {
 	idx := x >> (64 - sk.b)
-	lz := bits.TrailingZeros64(x)
+	lz := gdHash(x, div) //bits.TrailingZeros64(x)
 	sk.bitmaps.Flip(idx, uint8(lz))
 }
 
-func (sk *Sketch) sum() uint64 {
-	sum := uint64(0)
-
+func (sk *Sketch) sum() float64 {
+	sum := float64(0)
 	for i := uint64(0); i < sk.m; i++ {
-		sum += uint64(sk.bitmaps.LZ(i))
+		sum += float64(sk.bitmaps.LZ(i))
 	}
-
 	// TODO: We are always over estimating, so I am trying to subtract something based on our current base
-	//sum -= 1 << sk.bitmaps.base
 	return sum
 
 }
@@ -64,7 +61,6 @@ func (sk *Sketch) sum() uint64 {
 func (sk *Sketch) Cardinality() uint64 {
 	sum := float64(sk.sum())
 	m := float64(sk.m)
-
 	// TODO: Trying another correction here
 	res := m/phi*(math.Pow(2, float64(sum)/m)) - math.Pow(2, -kappa*sum/m)
 	return uint64(res + 0.5)

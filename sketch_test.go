@@ -26,10 +26,10 @@ func TestCardinalityZero(t *testing.T) {
 	}
 }
 
-func TestCardinality10(t *testing.T) {
+func TestCardinality1e5(t *testing.T) {
 	sk, _ := New(14)
-	for i := uint64(0); i < 10; i++ {
-		sk.AddHash(i)
+	for i := uint64(0); i < 100000; i++ {
+		sk.AddHash(rand.Uint64())
 	}
 	if card := sk.Cardinality(); card != 10 {
 		t.Error("exepcted cardinality == 10, got", card)
